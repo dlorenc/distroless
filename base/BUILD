@@ -75,3 +75,37 @@ structure_test(
     config = "testdata/certs.yaml",
     image = ":check_certs_image",
 )
+
+# For convenience, rename busybox-x86_64 to busybox.
+genrule(
+    name = "_busybox",
+    srcs = ["@busybox//file"],
+    outs = ["busybox"],
+    cmd = "mv $(<) $(@)",
+)
+
+genrule(
+    name = "busybox_tar",
+    srcs = ["@busybox//file"],
+    outs = ["busybox.tar"],
+    cmd = "mkdir busybox; cp $(<) busybox/busybox; cd busybox; \
+           for cmd in $$(busybox --list); do \
+             ln -s busybox $$cmd; \
+           done; \
+           cd ..; \
+           tar -cf $@ busybox",
+)
+
+# A debug image with busybox available.
+docker_build(
+    name = "debug",
+    base = ":cc",
+    directory = "/",
+    entrypoint = ["sh"],
+    env = {
+        "PATH": "/busybox",
+    },
+    tars = [
+        ":busybox.tar",
+    ],
+)
