@@ -25,3 +25,11 @@ docker_build(
     workdir = "/jetty",
     # We expect users to add their WAR under /jetty/webapps.
 )
+
+load("@runtimes_common//structure_tests:tests.bzl", "structure_test")
+
+structure_test(
+    name = "java8_test",
+    config = "testdata/java.yaml",
+    image = ":java8",
+)
