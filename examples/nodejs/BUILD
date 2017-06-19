@@ -26,3 +26,11 @@ structure_test(
     config = "testdata/hello.yaml",
     image = ":hello",
 )
+
+docker_build(
+    name = "hello_express",
+    base = "//nodejs:nodejs",
+    cmd = ["hello_express.js"],
+    files = [":hello_express.js", ":node_modules"],
+    ports = ["8000"],
+)

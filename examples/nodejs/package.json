@@ -1,0 +1,9 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "main": "hello.js",
+  "license": "BSD-2",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}

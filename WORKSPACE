@@ -139,3 +139,12 @@ git_repository(
     commit = "b91f0dedf1ff6c53899b0f64d29993c3c65b73b4",
     remote = "https://github.com/GoogleCloudPlatform/runtimes-common.git",
 )
+
+git_repository(
+    name = "io_bazel_rules_typescript",
+    remote = "https://github.com/bazelbuild/rules_typescript.git",
+    tag = "0.0.1",
+)
+load("@io_bazel_rules_typescript//:defs.bzl", "node_repositories", "yarn_install")
+node_repositories()
+yarn_install(package_json = "//:package.json")
